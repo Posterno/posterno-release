@@ -24,48 +24,48 @@ const success = chalk.green.bold;
  * Query github api and retrieve a list of tags.
  * @param {string} component the repository we're querying.
  */
-function checkTag ( component ) {
-    return axios.get( `https://api.github.com/repos/${component}/tags`)
-    .then((response) => {
-        return response;
-    });
+function checkTag(component) {
+	return axios.get(`https://api.github.com/repos/${component}/tags`)
+		.then((response) => {
+			return response;
+		});
 }
 
-const componentsFile = require( `${currentPath}/posterno-components.json` )
+const componentsFile = require(`${currentPath}/posterno-components.json`)
 let availableComponents = []
 
 async.forEach(
-    Object.keys( componentsFile.components ),
-    function(key, callback) {
+	Object.keys(componentsFile.components),
+	function (key, callback) {
 
 		let repositoryName = componentsFile.components[key]
 
-		checkTag( repositoryName )
-			.then( response => {
-				availableComponents.push( {
+		checkTag(repositoryName)
+			.then(response => {
+				availableComponents.push({
 					name: repositoryName,
 					version: response.data[0].name
-				} )
+				})
 				console.log();
-				console.log( logSymbols.success, success( `Found component "${repositoryName}" at version ${response.data[0].name}` ) )
+				console.log(logSymbols.success, success(`Found component "${repositoryName}" at version ${response.data[0].name}`))
 				console.log();
 				callback();
 			})
-			.catch( errordata => {
-				if ( typeof(errordata.response.data.message) !== 'undefined' ) {
-					console.log( error( errordata.response.data.message ) )
+			.catch(errordata => {
+				if (typeof (errordata.response.data.message) !== 'undefined') {
+					console.log(error(errordata.response.data.message))
 				} else {
-					console.log( error( 'Something went wrong.' ) )
+					console.log(error('Something went wrong.'))
 				}
 				callback();
 				process.exit(1);
 			})
-    },
-    function(err) {
+	},
+	function (err) {
 
 
 
-    }
+	}
 );
 // Remove all local symlinked - composer dependencies from the Posterno plugin.
 
