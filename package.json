@@ -1,7 +1,7 @@
 {
 	"name": "@posterno/posterno-release",
 	"version": "0.0.1",
-	"description": "CLI Command for preparing a release of the Posterno WordPress plugin.",
+	"description": "CLI Shell for preparing a release of the Posterno WordPress plugin.",
 	"main": "index.js",
 	"scripts": {
 		"posterno-prepare-release": "node posternoRelease.js"
