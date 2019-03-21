@@ -6,17 +6,25 @@ var fs = require('fs');
 const logSymbols = require('log-symbols')
 const async = require('async')
 const ora = require('ora');
+const args = require('args')
 var currentPath = process.cwd();
 const error = chalk.red.bold;
 const success = chalk.green.bold;
 
+// Parse options sent via terminal.
+args
+  .option('username', 'Optional Github username needed when API rate limits have been hit.', '' )
+  .option('password', 'Optional Github password needed when API rate limits have been hit.', '' )
+
+const flags = args.parse(process.argv)
+
 // Detect that the posterno-components.json file is found.
-/*if ( ! fs.existsSync( `${currentPath}/posterno-components.json` ) ) {
+if ( ! fs.existsSync( `${currentPath}/posterno-components.json` ) ) {
 	console.log();
 	console.log(error('The posterno-components.json file has not been found. Make sure you are within the Posterno plugin folder.') );
 	console.log();
 	process.exit(1);
-}*/
+}
 
 // Query github api to retrieve the latest tag assigned to each component.
 
@@ -25,7 +33,19 @@ const success = chalk.green.bold;
  * @param {string} component the repository we're querying.
  */
 function checkTag(component) {
-	return axios.get(`https://api.github.com/repos/${component}/tags`)
+
+	let options = {}
+
+	if ( flags.username && flags.password ) {
+		options = {
+			auth: {
+				username: flags.username,
+				password: flags.password
+			}
+		}
+	}
+
+	return axios.get(`https://api.github.com/repos/${component}/tags`, options )
 		.then((response) => {
 			return response;
 		});
@@ -33,6 +53,8 @@ function checkTag(component) {
 
 const componentsFile = require(`${currentPath}/posterno-components.json`)
 let availableComponents = []
+
+console.log();
 
 async.forEach(
 	Object.keys(componentsFile.components),
@@ -46,24 +68,23 @@ async.forEach(
 					name: repositoryName,
 					version: response.data[0].name
 				})
-				console.log();
 				console.log(logSymbols.success, success(`Found component "${repositoryName}" at version ${response.data[0].name}`))
 				console.log();
 				callback();
 			})
 			.catch(errordata => {
+				console.log();
 				if (typeof (errordata.response.data.message) !== 'undefined') {
 					console.log(error(errordata.response.data.message))
 				} else {
 					console.log(error('Something went wrong.'))
 				}
+				console.log();
 				callback();
 				process.exit(1);
 			})
 	},
 	function (err) {
-
-
 
 	}
 );
