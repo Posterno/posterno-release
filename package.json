@@ -1,12 +1,20 @@
 {
 	"name": "@posterno/posterno-release",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "CLI Shell for preparing a release of the Posterno WordPress plugin.",
 	"main": "index.js",
 	"scripts": {
 		"posterno-prepare-release": "node posternoRelease.js"
 	},
-	"author": "Pressmodo",
+	"repository": {
+        "type": "git",
+        "url": "git+https://github.com/Posterno/posterno-release.git"
+    },
+    "bugs": {
+        "url": "https://github.com/Posterno/posterno-release/issues"
+    },
+    "author": "pressmodo <hello@pressmodo.com> (https://pressmodo.com)",
+    "homepage": "https://github.com/Posterno/posterno-release",
 	"license": "MIT",
 	"files": [
 		"index.js",
