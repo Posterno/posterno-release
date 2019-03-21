@@ -73,6 +73,9 @@ function composerCleanUp() {
 
 }
 
+/**
+ * Install stable versions of all packages registered within Posterno.
+ */
 function composerInstallStablePackages() {
 
 	let packages = ''
@@ -128,6 +131,7 @@ async.forEachOf(componentsFile.components, (value, key, callback) => {
 		console.log(chalk.black.bgYellow( 'Now removing locally symlinked packages...' ));
 		console.log()
 
+		// Remove all local symlinked - composer dependencies from the Posterno plugin.
 		composerCleanUp()
 
 		console.log()
@@ -137,12 +141,13 @@ async.forEachOf(componentsFile.components, (value, key, callback) => {
 		console.log(chalk.black.bgYellow( 'Now installing stable packages...' ));
 		console.log()
 
+		// Re-run composer packages installation in preparation of release with the latest stable version of each component.
 		composerInstallStablePackages()
+
+		console.log()
+		console.log(logSymbols.success, success( 'All Posterno packages have been successfully installed. Posterno is now ready for a release.' ))
 
 	});
 
 });
 
-// Remove all local symlinked - composer dependencies from the Posterno plugin.
-
-// Re-run composer packages installation in preparation of release with the latest stable version of each component.
