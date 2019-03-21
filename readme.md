@@ -19,8 +19,21 @@ Run the command:
 npm install @posterno/posterno-release -g
 ```
 
+## How it works
+
+The following are the steps that this utility performs on your system.
+
+- Verifies that a posterno-components.json file is available. This is where all components are registered.
+- Queries Github api to check the latest released tags for each registered package.
+- Removes symlinked development Posterno composer packages.
+- Installs the stable version of each package.
+- Runs the Grunt.js `build` task defined into the main Posterno plugin.
+- Removes stable Posterno composer packages.
+- Re-installs the local symlinked packages.
+
 ## Usage
 
 - Navigate to the main Posterno core plugin folder via your terminal.
 - Run the command `posterno-prepare-release`.
-- Done.
+- Sit back and watch a release automagically complete.
+
