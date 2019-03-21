@@ -5,7 +5,6 @@ const axios = require('axios');
 const fs = require('fs');
 const logSymbols = require('log-symbols')
 const async = require('async')
-const ora = require('ora');
 const args = require('args')
 const execSync = require('child_process').execSync;
 const currentPath = process.cwd();
