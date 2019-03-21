@@ -91,6 +91,38 @@ function composerInstallStablePackages() {
 
 }
 
+/**
+ * Run the grunt.js task to prepare the final release package.
+ */
+function runGruntBuild() {
+
+	execSync(
+		`grunt build`, {
+			stdio: 'inherit'
+		}
+	);
+
+}
+
+/**
+ * Restore symlinked packages.
+ */
+function composerResetToDevMode() {
+
+	let packages = ''
+
+	Object.keys(availableComponents).forEach(key => {
+		packages += availableComponents[key].name + ' @dev'
+	});
+
+	execSync(
+		`composer require ${packages}`, {
+			stdio: 'inherit'
+		}
+	);
+
+}
+
 console.log();
 
 async.forEachOf(componentsFile.components, (value, key, callback) => {
@@ -144,7 +176,35 @@ async.forEachOf(componentsFile.components, (value, key, callback) => {
 		composerInstallStablePackages()
 
 		console.log()
-		console.log(logSymbols.success, success( 'All Posterno packages have been successfully installed. Posterno is now ready for a release.' ))
+		console.log(logSymbols.success, success( 'All Posterno packages have been successfully installed.' ))
+
+		console.log()
+		console.log(chalk.black.bgYellow( 'Now running Grunt build task...' ));
+		console.log()
+
+		runGruntBuild()
+
+		console.log()
+		console.log(logSymbols.success, success( 'Final Posterno release package has been created.' ))
+
+		console.log()
+		console.log(chalk.black.bgYellow( 'Now removing stable composer packages in preparation for dev mode reset...' ));
+		console.log()
+
+		composerCleanUp()
+
+		console.log()
+		console.log(logSymbols.success, success( 'Stable packages successfully removed.' ))
+
+		console.log()
+		console.log(chalk.black.bgYellow( 'Now resetting to dev mode...' ));
+		console.log()
+
+		composerResetToDevMode()
+
+		console.log()
+		console.log(logSymbols.success, success( 'Dev mode successfully reset. Posterno is now ready for a release on wp.org' ))
+		console.log()
 
 	});
 
