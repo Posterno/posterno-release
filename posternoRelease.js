@@ -80,7 +80,7 @@ function composerInstallStablePackages() {
 	let packages = ''
 
 	Object.keys(availableComponents).forEach(key => {
-		packages += availableComponents[key].name + ':' + availableComponents[key].version
+		packages += availableComponents[key].name + ':' + availableComponents[key].version + ' '
 	});
 
 	execSync(
@@ -112,7 +112,7 @@ function composerResetToDevMode() {
 	let packages = ''
 
 	Object.keys(availableComponents).forEach(key => {
-		packages += availableComponents[key].name + ' @dev'
+		packages += availableComponents[key].name + ' @dev '
 	});
 
 	execSync(
