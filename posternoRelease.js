@@ -97,6 +97,12 @@ function composerInstallStablePackages() {
 function runGruntBuild() {
 
 	execSync(
+		`composer update --prefer-dist --no-dev`, {
+			stdio: 'inherit'
+		}
+	);
+
+	execSync(
 		`grunt build`, {
 			stdio: 'inherit'
 		}
