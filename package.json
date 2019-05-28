@@ -1,6 +1,6 @@
 {
 	"name": "@posterno/posterno-release",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"description": "CLI Shell for preparing a release of the Posterno WordPress plugin.",
 	"main": "index.js",
 	"scripts": {
